@@ -19,17 +19,17 @@ class BookController extends Controller
     public function index(Request $request)
     {
         if(isset($request->author) && $request->author && $request->author !== 'all'){
-//            $books = Book::authors()->where('author_id', (int) $request->author)->paginate(2);
+
             $filter_by_author = Book::filter_by_author($request->author);
 
-//            dd($filter_by_author);
+            $books = Book::whereIn('id', $filter_by_author)->paginate(2);
 
-            $books = Book::whereIn('id', $filter_by_author)
-                ->paginate(2);
-        }else {
-            $books = Book::paginate(2);
-//            DB::table('author_product')->where('author_id', (int) $request->author)->get();
         }
+        else
+        {
+            $books = Book::paginate(2);
+        }
+
         $authors = Author::all();
 
         return view('books', [

@@ -32,7 +32,7 @@
                     <h3 class="h3 underline"><a href="{{route('books')}}">Список книг</a></h3>
                 </div>
                 <div class="col-lg-6">
-                    <form action="/">
+                    <form action="{{route('books')}}" method="get">
                         <div class="row">
                             <div class="d-flex gap-4 align-items-center">
                                 <select class="form-select" name="author">
@@ -53,27 +53,27 @@
 
             <table class="table">
                 <thead>
-                <tr>
-                    <th scope="col">№ п/п</th>
-                    <th scope="col">Название книги</th>
-                    <th scope="col">Авторы</th>
-                    <th scope="col">Кол-во авторов</th>
-                </tr>
+                    <tr>
+                        <th scope="col">№ п/п</th>
+                        <th scope="col">Название книги</th>
+                        <th scope="col">Авторы</th>
+                        <th scope="col">Кол-во авторов</th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach($books as $book)
-                    <tr>
-                        <th scope="row">{{ $books->firstItem() + $loop->index }}</th>
-                        <td>{{ $book->title }}</td>
-                        <td>
-                            @foreach($book->authors as $author)
-                                {{$author->title}}{{ $loop->last ? '' : ', ' }}
-                            @endforeach
-                        </td>
-                        <td>{{ $book->authors()->count() }}</td>
-                    </tr>
+                    @foreach($books as $book)
+                        <tr>
+                            <th scope="row">{{ $books->firstItem() + $loop->index }}</th>
+                            <td>{{ $book->title }}</td>
+                            <td>
+                                @foreach($book->authors as $author)
+                                    {{$author->title}}{{ $loop->last ? '' : ', ' }}
+                                @endforeach
+                            </td>
+                            <td>{{ $book->authors()->count() }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
-                @endforeach
             </table>
 
             {{ $books->links() }}
