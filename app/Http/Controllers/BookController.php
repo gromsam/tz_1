@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Models\Author;
 use App\Models\Book;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -13,11 +16,27 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if(isset($request->author) && $request->author && $request->author !== 'all'){
+//            $books = Book::authors()->where('author_id', (int) $request->author)->paginate(2);
+            $filter_by_author = Book::filter_by_author($request->author);
+
+//            dd($filter_by_author);
+
+            $books = Book::whereIn('id', $filter_by_author)
+                ->paginate(2);
+        }else {
+            $books = Book::paginate(2);
+//            DB::table('author_product')->where('author_id', (int) $request->author)->get();
+        }
+        $authors = Author::all();
+
         return view('books', [
-            'books' => Book::paginate(2)
+            'books' => $books,
+            'authors' => $authors
         ]);
+
     }
 
     /**

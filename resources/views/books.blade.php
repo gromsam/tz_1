@@ -7,7 +7,7 @@
         <title>Books</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
 
         <!-- Bootstrap CDN -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -19,7 +19,7 @@
 
         <style>
             body {
-                font-family: 'Nunito', sans-serif;
+                font-family: 'Roboto', sans-serif;
             }
         </style>
 
@@ -27,7 +27,29 @@
     <body class="antialiased">
         <div class="container">
 
-            <h1 class="h1 mb-4 mt-5">Список книг</h1>
+            <div class="row  mb-5 mt-5">
+                <div class="col-lg-6">
+                    <h3 class="h3 underline"><a href="{{route('books')}}">Список книг</a></h3>
+                </div>
+                <div class="col-lg-6">
+                    <form action="/">
+                        <div class="row">
+                            <div class="d-flex gap-4 align-items-center">
+                                <select class="form-select" name="author">
+                                    <option value="all">Все авторы</option>
+                                    @foreach($authors as $author)
+                                        <option
+                                            value="{{$author->id}}"
+                                            @if(isset(request()->author) && (int) request()->author === $author->id) selected @endif
+                                        >{{$author->title}}</option>
+                                    @endforeach
+                                </select>
+                                <button class="btn btn-primary">Фильтровать</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
             <table class="table">
                 <thead>
